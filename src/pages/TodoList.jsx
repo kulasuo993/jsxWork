@@ -1,205 +1,201 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import './TodoList.css'
+import HidePop from '../components/HidePop'
+
+
+
+
+//列表视图
+function List(props){
+    let {list, changeCheckbox, deleteItem} = props
+    
+    // 列表每一项按钮功能
+    const itemCheck = (item) =>{
+        item.ischeck = !item.ischeck
+        changeCheckbox(item)
+    }
+
+    const deleteFun = (id) =>{
+        deleteItem(id)
+    }
+
+    return (
+        <div>
+            <ul className="list">
+                {
+                    list.map(item =>{
+                        return <li key={item.id}>
+                            <input type="checkbox" checked={item.ischeck} onChange={()=>{itemCheck(item)}} />
+                            <p>{item.name}</p>  
+                            <button onClick={()=>{
+                                deleteFun(item.id)
+                            }}>删除</button>
+                        </li>
+                    })
+                }
+            </ul>
+        </div>
+    ) 
+}
+
+//底部视图
+function Bottom(props){
+    let {list, all, changeAll, pop} = props
+
+    // 已完成
+    const doneTotal = list.reduce((pre, item) => pre + (item.ischeck ? 1 : 0), 0)
+    // 总数
+    const totol = list.length
+
+    //全选按钮功能
+    const AllCheck = (e) =>{
+        changeAll(e.target.checked)
+    }
+    if(pop){
+        return(
+            <div className="num">
+                <input type="checkbox" checked={all} className="ALLcheck" onChange={(e)=>{AllCheck(e)}}/>
+                <span >已完成{doneTotal}/全部{totol}</span>
+            </div>
+        )
+    }
+  
+}
+
+//按钮视图
+function Btn(props){
+    let {filterData} = props
+
+    const show = (type)=>{
+        filterData(type)
+    }
+   return(
+        <div className="btn">
+            <button onClick={()=>{show('completed')}}>显示已完成任务</button>
+            <button onClick={()=>{show('all')}}>显示全部</button>
+            <button onClick={()=>{show('clear')}}>清除已完成任务</button>
+        </div> 
+    )
+}
 
 function TodoList(){
-    let [message,SetMessage] = useState('')
-    let [checkNum,setCheckNum] = useState(0)
-    let [All,setAll] = useState('')
-    let [showPop,setShowPop] = useState(true)
-    let [showPop1,setShowPop1] = useState(false)
+    let [todoList, setTodoList] = useState([])
+    let [All,setAll] = useState(false)
     let [list,setList] = useState([
         {
             name:'吃饭',
-            id:1,
+            id:Date.now()-1,
             ischeck:false
         }
         ,
         {
             name:'睡觉',
-            id:2,
+            id:Date.now()-2,
             ischeck:false
             
         },
         {
             name:'打豆豆',
-            id:3,
+            id:Date.now()-3,
             ischeck:false
         },
         {
             name:'敲代码',
-            id:4,
+            id:Date.now()-4,
             ischeck:false
         },
     ])
-    let [list1,setList1] = useState([])
+    let [pop,setPop] = useState(true)
 
-    //顶部视图
-    const Title =(props)=>{
-        return(
-            <div>
-                <h3>{props.name}</h3>
-                <input 
-                    type="text"
-                    value={message} 
-                    onChange={e => getMessage(e)}
-                    placeholder="请输入你的任务名称"
-                    className="input"
-                />
-                <button onClick={()=>{addFun()}} className="btnChoose">确认</button>
-            </div>
-        )
-    }
-    //列表视图
-    const List = (props)=>{
-        return(
-            <div>
-                <ul className="list">
-                    {
-                        props.list.map(item =>{
-                            return <li key={item.id}>
-                                        <input type="checkbox" checked={item.ischeck} onChange={()=>{itemCheck(item,list)}} />
-                                        <p>{item.name}</p>  
-                                        <button onClick={()=>{
-                                            deleteFun(item.id,item)
-                                        }}>删除</button>
-                                    </li>
-                        })
-                    }
-                </ul>
-            </div>
-        )
-      
-    }
-    //底部视图
-    const Bottom = (props) =>{
-        return(
-            <div className="num">
-                <input type="checkbox" checked={All} className="ALLcheck" onChange={()=>{AllCheck(list)}}/>
-                <span >已完成{checkNum}/全部{list.length}</span>
-            </div>
-        )
-    }
-    //按钮视图
-    const Btn = (props)=>{
-        return(
-            <div className="btn">
-                <button onClick={()=>{show()}}>显示已完成任务</button>
-                <button onClick={()=>{show1()}}>显示全部</button>
-                <button onClick={()=>{deleteHas()}}>清除已完成任务</button>
-            </div> 
-        )
-    }
-    //num计算属性多次调用方法
-    const numCount =()=>{
-        list.forEach(item =>{
-            let num = 0
-            if(item.ischeck === true){
-                num++
-            }
-            setCheckNum(checkNum = num)
-        })
-    }
-    //输入框V-model
-    const getMessage = (e)=>{
-        SetMessage(message => e.target.value)
-    }
-    //输入框添加按钮
-    const addFun = ()=>{
+
+
+    // 添加
+      const addFun = (str)=>{
         let obj = {
-            id: list.length+1,
-            name: message,
+            id: Date.now(),
+            name: str,
             ischeck: false
         }
         setList(list => [...list, obj])
-        numCount()
-        if(checkNum === list.length+1||list.length===0){
-            setAll(All = '1')
+    }
+
+    // list单选
+    const changeCheckboxFun = (item)=>{
+        let tempArry = [...list]
+        tempArry.forEach(items => {
+            if(items.id === item.id){
+                items = item
+            }
+        })
+        setList(list => tempArry)
+
+        //查看选中长度是否等于list的长度
+        const checkLength = list.filter(item=>item.ischeck).length;
+        if(checkLength === list.length){
+            setAll(All => true) 
         }else{
-            setAll(All = '')
+            setAll(All => false) 
         }
-    }
-   
-    //列表每一项按钮功能
-    const itemCheck = (data) =>{
-    console.log(data)
-    data.ischeck = !data.ischeck
-    numCount()
-    if(checkNum === list.length||list.length===0){
-        setAll(All = '1')
-    }else{
-        setAll(All = '')
-    }
     }
 
-    //全选按钮功能
-    const AllCheck = () =>{
-    if(All === ''){
-        setAll(All = '1')
-        list.forEach(item =>{
-            item.ischeck = true
-        })
-        setCheckNum(checkNum = list.length)
-    }else{
-        setAll(All = '')
-        list.forEach(item =>{
-            item.ischeck = false
-        })
-        setCheckNum(checkNum = 0)
-    }
-    }
-    //删除按钮功能
-    const deleteFun = (id,data)=>{
-    setList(list => list.filter(item => item.id !== id)) 
-    console.log(data)
-    data.ischeck = false
-    numCount()
-    if(checkNum === list.length-1||list.length===0){
-        setAll(All = '1')
-    }else{
-        setAll(All = '')
-    }
-    }
-    //已完成任务按钮 切换至“已完成任务”
-    const show = () =>{
-    setShowPop(showPop = false)
-    setShowPop1(showPop1 = true)
-    list1.length = 0
-    list.forEach(item =>{
-        if(item.ischeck === true){
-            setList1(list1 =>[...list1,item])
-        }
-    })
-    }
-    //显示全部按钮
-    const show1 = () =>{
-    setShowPop(showPop = true)
-    setShowPop1(showPop1 = false)
-    }
-    
-    //清除已完成任务按钮
-    const deleteHas = ()=>{
-    list.forEach(item =>{
-        if(item.ischeck === true){
-            setList(list => list.filter(ite => ite.id !== item.id)) 
-        }
-    })
-    setCheckNum(checkNum = 0)
+    // list删除
+    const deleteItemFun = (id)=>{
+        setList(list => list.filter(item => item.id !== id))
     }
 
+    // 全选
+    const changeAllFun = (checked)=>{
+        if(checked === true){
+            let tempArry = [...list]
+            tempArry.forEach(items => {
+                items.ischeck = true
+            })
+            setList(list => tempArry) 
+        }else{
+            let tempArry = [...list]
+            tempArry.forEach(items => {
+                items.ischeck = false
+            })
+            setList(list => tempArry)  
+        }
+        setAll(All => checked)   
+    }
+
+    // 过滤
+    const filterFun = (type)=>{
+        if(type === 'completed'){
+            let tempArry = list.filter(item => item.ischeck === true)
+            setPop(false)
+            setTodoList(todoList => tempArry) 
+        }else if(type === 'all'){
+            let tempArry = [...list]
+            setPop(true)
+            setTodoList(todoList  => tempArry) 
+        }else if(type === 'clear'){
+            setPop(true)
+            let tempArry = list.filter(item => {
+                return !item.ischeck
+            })
+            setList(list => tempArry)
+            setTodoList(todoList => tempArry)
+        } 
+    }
+
+    //监听list状态改变
+    useEffect(() => {
+        let temp = [...list]
+        setTodoList(todoList => temp)
+    }, [list])
     return(
         <div className="box">
-            <div style={{display:showPop ?'block':'none'}}>
-                <Title name='任务列表'></Title>
-                <List list={list}></List>
-                <Bottom></Bottom>
+            <div>
+                <HidePop addtodo={addFun}></HidePop>
+                <List list={todoList} changeCheckbox={changeCheckboxFun} deleteItem={deleteItemFun}></List>
+                <Bottom list={todoList} all={All} pop={pop} changeAll={changeAllFun}></Bottom>
+              
             </div>
 
-            <div style={{display:showPop1 ?'block':'none'}}>
-                <h3>已完成列表</h3>
-                <List list={list1}></List>
-            </div>
-
-            <Btn></Btn>
+            <Btn filterData={filterFun} pop={pop} changePop={setPop}></Btn>
         </div>
     )
 }
