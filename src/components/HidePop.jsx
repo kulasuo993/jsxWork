@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React,{ useState } from 'react'
 import "./style.scss"
 
@@ -33,7 +34,6 @@ function Title(props){
 
 function Modal(props){
   let {children, visiable, onCancle} = props
-
   // 遮罩层点击
   const handelLayer = (e)=>{
     if(e.target.dataset.self === 'layer'){
@@ -54,7 +54,35 @@ function Modal(props){
   ) 
 }
 
+Modal.propTypes = {
+  closeable: PropTypes.bool,
+  children: PropTypes.node,
+  visiable:PropTypes.bool,
+  onCancel: PropTypes.func,
+  onCofirm: PropTypes.func
+}
 
+Modal.defaultProps = {
+  closeable: true,
+  children:'什么都没有',
+  visiable: false,
+  onCancel: ()=>{},
+  onCofirm: ()=>{}
+}
+
+Title.propTypes = {
+  name: PropTypes.node,
+  addtodo : PropTypes.func,
+  onCancel: PropTypes.func,
+}
+
+Title.defaultProps = {
+  name:'111',
+  addtodo : ()=>{
+    console.log(111)
+  },
+  onCancel: ()=>{}
+}
 
 function PageA(props) {
   let [visiable, setVisiable] = useState(false)
@@ -68,15 +96,14 @@ function PageA(props) {
   }
   return (
     <div>
-      <button onClick={()=>{setVisiable(true)}}>open modal</button>
+      <button onClick={()=>{setVisiable(true)}}>添加todolist</button>
       <Modal
-        title={<span style={{color:'blue'}}>添加todolist</span>}
         closeable
         visiable={visiable}
         onCancle={()=>{setVisiable(false)}}
         onCofirm={()=>{submitFun()}}
       >
-         <Title name='任务列表' addtodo={addFun}  onCancle={()=>{setVisiable(false)}}></Title>
+         <Title name='添加' addtodo={addFun}  onCancle={()=>{setVisiable(false)}}></Title>
       </Modal>
     </div>
   )

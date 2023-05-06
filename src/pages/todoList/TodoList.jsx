@@ -1,14 +1,13 @@
 import React,{useState,useEffect} from "react";
 import './TodoList.css'
-import HidePop from '../components/HidePop'
-
-
+// import HidePop from '../components/HidePop'
+import HidePop from '@/components/HidePop'
+import { Button, Space } from 'antd';
 
 
 //列表视图
 function List(props){
     let {list, changeCheckbox, deleteItem} = props
-    
     // 列表每一项按钮功能
     const itemCheck = (item) =>{
         item.ischeck = !item.ischeck
@@ -41,12 +40,10 @@ function List(props){
 //底部视图
 function Bottom(props){
     let {list, all, changeAll, pop} = props
-
     // 已完成
     const doneTotal = list.reduce((pre, item) => pre + (item.ischeck ? 1 : 0), 0)
     // 总数
     const totol = list.length
-
     //全选按钮功能
     const AllCheck = (e) =>{
         changeAll(e.target.checked)
@@ -59,7 +56,6 @@ function Bottom(props){
             </div>
         )
     }
-  
 }
 
 //按钮视图

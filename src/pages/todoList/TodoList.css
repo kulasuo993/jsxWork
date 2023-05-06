@@ -28,14 +28,18 @@ h3{
     border: 1px solid black;
     list-style: none;
 }
+.list li input{
+    margin-top: 5px;
+}
 .list li p{
-    margin-top: -21px;
+    margin-top: -17px;
     margin-left: 20px;
 }
 .list li button{
     display: block;
-    margin-left: 310px;
-    margin-top: -37px;
+    width: 50px;
+    margin-left: 305px;
+    margin-top: -33px;
 }
 .num{
     margin-left: 60px;
