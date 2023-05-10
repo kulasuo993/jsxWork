@@ -17,8 +17,8 @@ export function switchSize(payload){
 export function login(data) {
    return function(dispatch){
     fetchLogin(data).then(res => {
-        console.log("res:", res);
         dispatch({type: 'USER_LOGIN', payload: res})
+        console.log(res)
     })
    } 
 }

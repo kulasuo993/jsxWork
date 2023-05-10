@@ -37,7 +37,7 @@ function Mysider(props){
         defaultOpenKeys={openKey}
         mode="inline"
         theme="dark"
-        items={createItems(accessRoutes)}
+        items={createItems(asyncRoutes)}
       />
     </div>
   );

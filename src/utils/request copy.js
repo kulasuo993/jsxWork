@@ -6,7 +6,6 @@ import {resetUser} from '@/store/actions'
 import CryptoJS from 'crypto-js'
 import { getToken, removeToken } from '@/utils/auth'
 import qs from 'qs'
-import {Link} from 'react-router-dom'
 const {confirm} = Modal
 
  
@@ -78,12 +77,9 @@ service.interceptors.response.use(
               store.dispatch(resetUser())
             }
           })
-        }else if(res.retCode === 10000){
-          console.log('asdasdasd')
         }
         return Promise.reject(new Error(res.message || 'Error'))
       } else {
-        console.log(res.data)
         return res.data
       }
     

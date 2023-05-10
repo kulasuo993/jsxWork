@@ -5,14 +5,13 @@ const initState = {
     roles:[],
     accessRoutes: []
 }
-
 function reducer(state = initState , {type,payload}){
     return produce(state,newState=>{
         switch(type){
             case "USER_LOGIN":
-                const { role_ids,token} = payload;
+                const { token} = payload;
                 newState.token = token;
-                newState.roles = role_ids;
+                newState.roles = ['37'];
                 localStorage.setItem("token",token)
                 break;
             case "USER_PERMISSION":

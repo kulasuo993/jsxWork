@@ -13,13 +13,11 @@ function MyHeader(props){
     const navigate = useNavigate()
     const dispath = useDispatch()
     console.log(useBreadData)
-
     const renderBread = ()=>{
         let result = []
         useBreadData.forEach((item,index)=>{
             if(item.path && index !== useBreadData.length -1){
                 result.push({
-                    // title: <Link to={item.path}>{item.label}</Link>
                     title: <em onClick={()=>{linkTo(item)}}>{item.label}</em>
                 }) 
             }else{
@@ -35,25 +33,6 @@ function MyHeader(props){
     const linkTo= (route)=>{
         navigate(route.path)
     }
-
-    // const items = [
-    //     {
-    //       label: <a href="https://www.antgroup.com">1st menu item</a>,
-    //       key: '0',
-    //     },
-    //     {
-    //       label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    //       key: '1',
-    //     },
-    //     {
-    //       type: 'divider',
-    //     },
-    //     {
-    //       label: '3rd menu item',
-    //       key: '3',
-    //     },
-    //   ];
-
 
     const sizes = ['large', 'middle', 'small']
     let items = []

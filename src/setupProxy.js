@@ -10,6 +10,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware')
 //         })
 //     )
 // }
+
 module.exports = function (app) {
     app.use(
         createProxyMiddleware('/api', { //遇见/api1前缀的请求，就会触发该代理配置

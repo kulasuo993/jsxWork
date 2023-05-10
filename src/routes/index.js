@@ -29,7 +29,7 @@ export const asyncRoutes = [
         icon: <VideoCameraOutlined />,
         label: "商品管理",
         meta:{
-            roles: ['37']
+            roles: ['37','327']
         },
         children: [
             {
@@ -69,17 +69,14 @@ export const asyncRoutes = [
                 path: "/list/list1",
                 icon: null,
                 label: "list1",
-                element: <TodoList />,
-                meta:{
-                    roles: ['37']
-                },
+                element: <TodoList />
             },
             {
                 key: 100002,
                 path: "/list/list2",
                 icon: null,
                 label: "list2",
-                element: <TodoList1 />,
+                element: <TodoList1 />
             }
         ]
     },
@@ -88,7 +85,7 @@ export const asyncRoutes = [
         icon: null,
         label: '课堂',
         meta:{
-            roles: ['37']
+            roles: ['37','327']
         },
         children:[
             {
@@ -108,7 +105,7 @@ export const asyncRoutes = [
         label: "用户管理",
         meta:{
             roles: ['37','327']
-        }
+        },
     },
   
 ];

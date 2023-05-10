@@ -1,15 +1,18 @@
 import 'antd/dist/reset.css';
 // import Layout from '@/pages/layout/index'
 // import Login from '@/pages/login/index'
-
+import { Route } from 'react-router-dom';
 import {HashRouter} from 'react-router-dom'
-// import {asyncRoutes} from './routes/index'
+import {asyncRoutes} from './routes/index'
 
 import {Provider} from 'react-redux'
 import store from '@/store/index'
 import Permission  from '@/Permission'
 
 
+import { PersistGate } from 'redux-persist/lib/integration/react';
+
+import { persistor } from '@/store/index';
 // function createRoutes(asyncRoutes){
 //   let result = []
 //   asyncRoutes.forEach(route => {
@@ -35,11 +38,12 @@ function App() {
     <div className="App">
       <HashRouter> 
         <Provider store={store}>
+          <Permission/>
           {/* <Routes>
             <Route path='/' element={<Layout/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
           </Routes> */}
-          <Permission/>
+       
         </Provider>
       </HashRouter>
     </div>
