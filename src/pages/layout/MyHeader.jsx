@@ -1,14 +1,17 @@
 import {
     FontSizeOutlined,
   } from '@ant-design/icons';
-import { Col, Row, Breadcrumb } from 'antd';
-import { useNavigate } from 'react-router-dom'
+import { Col, Row, Breadcrumb, Dropdown } from 'antd';
+import {useNavigate} from 'react-router-dom'
 import useBread from './useBread'
-
+import {useDispatch} from 'react-redux'
+import {switchSize} from '@/store/actions'
+ 
 
 function MyHeader(props){
     const useBreadData = useBread()
     const navigate = useNavigate()
+    const dispath = useDispatch()
     console.log(useBreadData)
 
     const renderBread = ()=>{
@@ -33,6 +36,44 @@ function MyHeader(props){
         navigate(route.path)
     }
 
+    // const items = [
+    //     {
+    //       label: <a href="https://www.antgroup.com">1st menu item</a>,
+    //       key: '0',
+    //     },
+    //     {
+    //       label: <a href="https://www.aliyun.com">2nd menu item</a>,
+    //       key: '1',
+    //     },
+    //     {
+    //       type: 'divider',
+    //     },
+    //     {
+    //       label: '3rd menu item',
+    //       key: '3',
+    //     },
+    //   ];
+
+
+    const sizes = ['large', 'middle', 'small']
+    let items = []
+    function randerItem(){
+        sizes.forEach((item,index) =>{
+            items.push(
+                {
+                    label: <div onClick={()=>{toggleSize(item)}}>{item}</div>,
+                    key: index + '',
+                },   
+            )  
+        })
+    }
+    randerItem()
+
+    const toggleSize = (size)=>{
+        dispath(switchSize(size))
+    }
+
+
     return (
         <div className='my-header'>
             <Row>
@@ -42,7 +83,13 @@ function MyHeader(props){
                 />
                 </Col>
                 <Col span={1}>
+                <Dropdown
+                    menu={{items}}
+                    trigger={['click']}
+                >
                     <FontSizeOutlined></FontSizeOutlined>
+                </Dropdown>
+                    
                 </Col>
             </Row>   
         </div>

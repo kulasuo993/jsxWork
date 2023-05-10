@@ -19,12 +19,18 @@ export const asyncRoutes = [
         path: "/dashboard",
         label: "首页大屏",
         icon: <MenuFoldOutlined />,
-        element: <Dashboard />
+        element: <Dashboard />,
+        meta:{
+            roles: ['37','327']
+        }
     },
     {
         key: 1002,
         icon: <VideoCameraOutlined />,
         label: "商品管理",
+        meta:{
+            roles: ['37']
+        },
         children: [
             {
                 key: 100201,
@@ -54,6 +60,9 @@ export const asyncRoutes = [
         key: 1004,
         icon: <UserOutlined />,
         label: "todoList",
+        meta:{
+            roles: ['37','327']
+        },
         children:[
             {
                 key: 100001,
@@ -61,6 +70,9 @@ export const asyncRoutes = [
                 icon: null,
                 label: "list1",
                 element: <TodoList />,
+                meta:{
+                    roles: ['37']
+                },
             },
             {
                 key: 100002,
@@ -75,6 +87,9 @@ export const asyncRoutes = [
         key: 1005,
         icon: null,
         label: '课堂',
+        meta:{
+            roles: ['37']
+        },
         children:[
             {
                 key:10001,
@@ -90,7 +105,10 @@ export const asyncRoutes = [
         path: "/user",
         element: <User />,
         icon: <UserOutlined />,
-        label: "用户管理"
+        label: "用户管理",
+        meta:{
+            roles: ['37','327']
+        }
     },
   
 ];

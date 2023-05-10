@@ -98,31 +98,24 @@ function Btn(props){
 }
 
 function TodoList(){
-    let {list} = useSelector(state=>state.list)
-    let [todoList, setTodoList] = useState([])
+    let {list,list2} = useSelector(state=>state.list)
     let [All,setAll] = useState(false)
     const dispatch = useDispatch()
-    let abc = [...list]
-    console.log(abc)
     //添加功能
     const confirmAdd = (arr)=>{
         dispatch({type:"LIST_PUSH",payload:arr})
-        const checkLength = list.filter(item=>item.ischeck).length;
-        console.log(checkLength,list.length)
         setAll(false) 
     }
 
     //单选
     const itemCheck = (data,id,item) =>{
         const checkLength = list.filter(item=>item.ischeck).length;
-        console.log(checkLength)
         if(checkLength === list.length-1){
             setAll(true) 
         }else{
             setAll(false) 
         }
         dispatch({type:"ITEM_CHECK",payload:{data,id}})
-        console.log(item)
     }
 
    //删除功能
@@ -145,7 +138,6 @@ function TodoList(){
                 }
             }
         });
-        console.log(checkLength,list.length)
        
         // dispatch({type:"ITEM_CHECK",payload:{data,id}})
     }
@@ -159,35 +151,30 @@ function TodoList(){
       // 过滤
       const filterFun = (type)=>{
         if(type === 'completed'){
-            let tempArry = list.filter(item => item.ischeck === true)
+            let abc = [...list]
+            let tempArry = abc.filter(item => item.ischeck === true)
             dispatch({type:"FILTER_ONE",payload:tempArry})
-            setTodoList(tempArry) 
         }
 
         else if(type === 'all'){
             let tempArry = [...list]
             dispatch({type:"FILTER_TWO",payload:tempArry})
-            setTodoList(tempArry) 
         }
         
         else if(type === 'clear'){
             let tempArry = list.filter(item => item.ischeck === false)
-            dispatch({type:"FILTER_ONE",payload:tempArry})
-            setTodoList(tempArry) 
+            dispatch({type:"FILTER_THREE",payload:tempArry})
         }
     }
 
-    useEffect(() => {
-        let temp = [...list]
-        setTodoList(temp)
-    }, [list])
+
     
     return(
         <div className="box">
             <div>
                 <Title addTodo={confirmAdd}></Title>
-                <List list={todoList} deleteItem={FunDelete} itemCheckFun={itemCheck}></List>
-                <Bottom list={todoList} all={All}  changeAll={changeAllFun}></Bottom>
+                <List list={list} deleteItem={FunDelete} itemCheckFun={itemCheck}></List>
+                <Bottom list={list} all={All}  changeAll={changeAllFun}></Bottom>
                 <Btn filterData={filterFun}></Btn>
             </div>
 

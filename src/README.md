@@ -346,6 +346,16 @@
             getState:获取仓库中的状态
             subscribe:订阅
 
+         处理异步action
+            在redux中要写异步代码，需要安装redux-thunk中间件
+            如有有多个中间件，用compase连接
+            
+        redux中action分两类：同步action和异步action
+            同步action是一个对象：{type, payload}
+            异步action是一个函数，函数中可以写异步代码
+            dispatch默认情况下只能派发一个同步的action
+            dispatch要派发一个异步的action，需要使用redux-thunk中间件
+
         谷歌安装：chrome Redux-DevTools 
             1.创建store配置：createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
             2.redux-logger： logger是一个中间件，要使用中间件, createStore(reducer, applyMiddleware(logger))
@@ -354,6 +364,31 @@
         a.Dropdown组件添加
         b.点击large，middle，small，改变仓库中的size的大小
         c.抽离action，多个复用
+
+     8.登录：     
+        1.登录
+            本地代理：
+                配置文件 /src/setupProxy.js （推荐）
+                将 create-react-app 解包后，可以在 config 文件夹下找到配置
+                在 config/path.js 中存在 proxySetup: resolveApp('src/setupProxy.js'),
+                首先安装 http-proxy-middleware
+
+            前端权限校验的流程：
+                点击登录，调用接口，获取token。token需要存储到redux中，还需要存储到localstorage中。
+                带个token，再去调用一个接口，获取用户信息，用户信息中包含角色（role）信息。也需要存储到redux中。
+                使用后端返回 的role和路由表，执行算法，得到当前登录用户有权访问的路由们（accessRoutes）。也是需要存储到redux中。
+                根据accessRoutes动态生成路由规则和Layout菜单。
+                跳到后面首页面/，接着重定向到/dashboard。
+
+        2.模拟路由守卫
+            1.Permission
+
+    9.框架
+        umi： https://umi-ktvimeidq.now.sh/zh/guide/
+        ant design pro: 
+        
+    
+
     
 
 

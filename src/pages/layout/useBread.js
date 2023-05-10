@@ -22,7 +22,6 @@ function useBread(){
             }
         } 
     }
-    console.log(result)
     return result
     
 }

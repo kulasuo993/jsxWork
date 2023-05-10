@@ -3,7 +3,7 @@ import { Menu } from 'antd';
 import {asyncRoutes} from '../../routes/index'
 import {Link} from 'react-router-dom'
 import useMenu from './useMenu'
-
+import { useSelector } from 'react-redux'
 function createItems(asyncRoutes){
   let arr = []
   asyncRoutes.forEach(items => {
@@ -29,6 +29,7 @@ function getItem(label, key, icon, children, path) {
 }
 function Mysider(props){
   const [selectedKey, openKey] = useMenu()
+  const {accessRoutes} = useSelector(state => state.user)
   return (
     <div >
       <Menu
@@ -36,7 +37,7 @@ function Mysider(props){
         defaultOpenKeys={openKey}
         mode="inline"
         theme="dark"
-        items={createItems(asyncRoutes)}
+        items={createItems(accessRoutes)}
       />
     </div>
   );

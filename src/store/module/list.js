@@ -62,10 +62,13 @@ function reducer(state = initState,action){
                 }
                 break;
             case "FILTER_ONE":
+                newState.list.length = 0
                 newState.list2.length = 0
+                console.log(action.payload)
                 for(let i = 0 ; i<action.payload.length ; i++){
                     newState.list2.push(action.payload[i])
                 }
+                    newState.list.push(...newState.list2)
                 break;   
             case "FILTER_TWO":
                 newState.list.length = 0

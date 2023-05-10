@@ -4,18 +4,21 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Layout, Button } from 'antd';
+import { Layout, Button , ConfigProvider } from 'antd';
 import Mysider from './Myside'
 import MyHeader from './MyHeader'
 import { Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const { Header, Sider, Content } = Layout;
 
 function LayoutPage(){
   const [collapsed, setCollapsed] = useState(false)
+  const {size} = useSelector(state =>state.app)
 
   return (
-    <div className='my-layout'>
+    <ConfigProvider componentSize={size}>
+       <div className='my-layout'>
         <Layout>
           <Sider trigger={null} collapsible collapsed={collapsed}>
             <Mysider></Mysider>
@@ -49,6 +52,8 @@ function LayoutPage(){
           </Layout>
         </Layout>
     </div>
+    </ConfigProvider>
+   
   
   );
 };
